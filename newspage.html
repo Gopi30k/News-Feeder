@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Feeder | Your Feeds</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+      integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./newsFeedStyle.css" />
+  </head>
+  <body onload="loadNewsData()">
+    <div class="container"></div>
+    <script>
+      function loadNewsData() {
+        const containerClass = document.querySelector(".container");
+        const newsData = JSON.parse(sessionStorage.getItem("newsCtgryData"));
+        let newsUI = "";
+
+        Object.keys(newsData).forEach((ctgryKey) => {
+          newsData[ctgryKey].forEach((newsFeed) => {
+            // console.log(newsFeed);
+            newsUI += `<div class="news-card">
+            <div class="img-container">
+              <img
+                src="${newsFeed.urlToImage}"
+              />
+              <span class="category">${ctgryKey}</span>
+            </div>
+            <div class="author-time">
+              <h4 id="author"><i class="fas fa-user-tie"></i>${newsFeed.author}</h4>
+              <h4 id="published-time">
+                <i class="fas fa-clock"></i>${newsFeed.publishedAt}
+              </h4>
+            </div>
+            <div class="content">
+              <div class="title" id="title">
+                <h1>${newsFeed.title}</h1>
+              </div>
+              <div class="description" id="description">
+                <p>
+                  ${newsFeed.description}
+                </p>
+              </div>
+            </div>
+            <a
+              href=" ${newsFeed.url}"
+              id="read_more"
+              class="read-more btn"
+              >Read More</a
+            >
+          </div>`;
+          });
+        });
+
+        containerClass.innerHTML = newsUI;
+      }
+    </script>
+  </body>
+</html>
